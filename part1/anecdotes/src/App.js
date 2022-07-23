@@ -4,8 +4,13 @@ const Button = ( props ) => (
   <><button onClick = { props.onClick }> { props.text } </button></>
 );
 
-const Anecdote = ( { anecdote } ) => {
-  return (<p>{anecdote}</p>);
+const Anecdote = ( { anecdote, votes, anecdotes } ) => {
+  return (
+  <>
+    <p>{anecdotes[anecdote]}</p>
+    <p>Has {votes[anecdote]} votes</p>
+    </>
+  );
 }
 const App = () => {
   const anecdotes = [
@@ -18,15 +23,30 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
   // save clicks of each button to its own state
-  const [selected, setSelected] = useState(anecdotes[Math.floor(Math.random()*anecdotes.length)])
+  const [selected, setSelected] = useState(Math.floor(Math.random()*anecdotes.length));
+  let initialVotes = {};
+  for ( let i = 0 ; i <= anecdotes.length ; i++ ) {
+    initialVotes[i]=0;
+  }
+  const [votes, setVotes] = useState(initialVotes);
+
+  const addVote = ( selected ) => {
+    let newVotes = {
+      ...votes
+    }
+    newVotes[selected] = newVotes[selected]+1;
+    setVotes( newVotes );
+  }
+
   return (
     <>
       <div>
-        <Anecdote anecdote = { selected } />
+        <Anecdote anecdote = { selected } votes = { votes } anecdotes = { anecdotes }/>
       <hr/>
       </div>
       <div>
-        <Button onClick={ () => setSelected(anecdotes[Math.floor(Math.random()*anecdotes.length)]) } text = 'Next Anecdote' />
+        <Button onClick={ () => setSelected( Math.floor( Math.random() * anecdotes.length )) } text = 'Next Anecdote' />
+        <Button onClick={ () => addVote(selected) } text = 'Vote' />
       </div>
 
     </>
