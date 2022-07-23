@@ -4,28 +4,29 @@ const Button = ( props ) => (
   <><button onClick = { props.onClick }> { props.text } </button></>
 );
 
-const Text = ( props ) => (
-  <><p><span>{ props.text }</span>: {props.counter}</p></>
-);
 
 const Display = (  {good, neutral, bad}  ) => {
   if( good + neutral + bad === 0 ){
     return (<p>No feedback given</p>)
   } else {  
     return (<div>
-      <Text text = 'Good' counter = { good }/>
-      <Text text = 'Neutral' counter = { neutral }/>
-      <Text text = 'Bad' counter = { bad }/>
-      <Text text = 'All' counter = { ( good + neutral + bad ) }/>
-      <Statistics text = 'Average' counter = { ( good - bad )/( good + neutral + bad ) }/>
-      <Statistics text = 'Positive' counter = { ( good )/( good + neutral + bad )  }/>
+      <StatisticsLine text = 'Good' type="text" counter = { good }/>
+      <StatisticsLine text = 'Neutral' type="text" counter = { neutral }/>
+      <StatisticsLine text = 'Bad' type="text" counter = { bad }/>
+      <StatisticsLine text = 'All' type="text" counter = { ( good + neutral + bad ) }/>
+      <StatisticsLine text = 'Average' type="statistic" counter = { ( good - bad )/( good + neutral + bad ) }/>
+      <StatisticsLine text = 'Positive' type="statistic" counter = { ( good )/( good + neutral + bad )  }/>
     </div>)
   }
 } 
 
-const Statistics = ( props ) => (
-  <><p><span>{ props.text }</span>: {(props.counter*100).toFixed(2)}%</p></>
-);
+const StatisticsLine = ( props ) => {
+  if( props.type === 'text') {
+    return (<><p><span>{ props.text }</span>: {props.counter}</p></>)
+  } else if( props.type === 'statistic' ){
+    return (<><p><span>{ props.text }</span>: {(props.counter*100).toFixed(2)}%</p></>)
+  }
+}
 
 const App = () => {
   // save clicks of each button to its own state
