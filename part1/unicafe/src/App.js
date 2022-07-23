@@ -9,22 +9,24 @@ const Display = (  {good, neutral, bad}  ) => {
   if( good + neutral + bad === 0 ){
     return (<p>No feedback given</p>)
   } else {  
-    return (<div>
-      <StatisticsLine text = 'Good' type="text" counter = { good }/>
-      <StatisticsLine text = 'Neutral' type="text" counter = { neutral }/>
-      <StatisticsLine text = 'Bad' type="text" counter = { bad }/>
-      <StatisticsLine text = 'All' type="text" counter = { ( good + neutral + bad ) }/>
-      <StatisticsLine text = 'Average' type="statistic" counter = { ( good - bad )/( good + neutral + bad ) }/>
-      <StatisticsLine text = 'Positive' type="statistic" counter = { ( good )/( good + neutral + bad )  }/>
-    </div>)
+    return (<table>
+      <tbody>
+        <StatisticsLine text = 'Good' type="text" counter = { good }/>
+        <StatisticsLine text = 'Neutral' type="text" counter = { neutral }/>
+        <StatisticsLine text = 'Bad' type="text" counter = { bad }/>
+        <StatisticsLine text = 'All' type="text" counter = { ( good + neutral + bad ) }/>
+        <StatisticsLine text = 'Average' type="statistic" counter = { ( good - bad )/( good + neutral + bad ) }/>
+        <StatisticsLine text = 'Positive' type="statistic" counter = { ( good )/( good + neutral + bad )  }/>
+      </tbody>
+    </table>)
   }
 } 
 
 const StatisticsLine = ( props ) => {
   if( props.type === 'text') {
-    return (<><p><span>{ props.text }</span>: {props.counter}</p></>)
+    return (<><tr><td>{ props.text }</td><td>{props.counter}</td></tr></>)
   } else if( props.type === 'statistic' ){
-    return (<><p><span>{ props.text }</span>: {(props.counter*100).toFixed(2)}%</p></>)
+    return (<><tr><td>{ props.text }</td><td>{(props.counter*100).toFixed(2)}%</td></tr></>)
   }
 }
 
