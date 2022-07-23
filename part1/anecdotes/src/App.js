@@ -4,13 +4,32 @@ const Button = ( props ) => (
   <><button onClick = { props.onClick }> { props.text } </button></>
 );
 
-const Anecdote = ( { anecdote, votes, anecdotes } ) => {
-  return (
-  <>
-    <p>{anecdotes[anecdote]}</p>
-    <p>Has {votes[anecdote]} votes</p>
-    </>
-  );
+const Anecdote = ( { anecdote, votes, anecdotes, type = 'random' } ) => {
+  if ( type === 'random') {
+    return (
+    <>
+      <p>{anecdotes[anecdote]}</p>
+      <p>Has {votes[anecdote]} votes</p>
+      </>
+    );
+  } else {
+    let keyVotes = Object.keys( votes );
+    let max = 0
+    let key = 0;
+    keyVotes.map ( k => {
+      if ( max < votes[k] ){
+        max = votes[k];
+        key = k;
+      }
+      return ''
+    })
+    return(
+      <>
+        <p>{anecdotes[key]}</p>
+        <p>Has {votes[key]} votes</p>
+      </>
+    )
+  }
 }
 const App = () => {
   const anecdotes = [
@@ -41,13 +60,17 @@ const App = () => {
   return (
     <>
       <div>
-        <Anecdote anecdote = { selected } votes = { votes } anecdotes = { anecdotes }/>
+        <Anecdote anecdote = { selected } votes = { votes } anecdotes = { anecdotes } type = 'random'/>
       <hr/>
       </div>
       <div>
         <Button onClick={ () => setSelected( Math.floor( Math.random() * anecdotes.length )) } text = 'Next Anecdote' />
         <Button onClick={ () => addVote(selected) } text = 'Vote' />
       </div>
+      <div>
+        <Anecdote anecdote = { selected } votes = { votes } anecdotes = { anecdotes } type = 'max'/>
+      </div>
+
 
     </>
   )
