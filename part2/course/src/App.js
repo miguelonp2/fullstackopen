@@ -1,7 +1,10 @@
 import { nanoid } from 'nanoid'
-const Header = ({ course }) => <h1>{course}</h1>
+const Header = ( { course } ) => <h1>{course}</h1>
 
-//const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ parts }) => {
+  let sum = parts.reduce( ( acc, p ) => acc += p.exercises, 0 );
+  return ( <p>Number of exercises { sum }</p> ) 
+}
 
 const Part = ({ name, exercises }) => 
   <p>
@@ -12,6 +15,7 @@ const Course = ( { course } ) => {
   return (<>
     <Header course = { course.name } />
     { course.parts.map( part => <Part key = { nanoid() } name = { part.name } exercises = { part.exercises }/> ) }
+    <Total parts = { course.parts }/>
   </>)
 
 }
