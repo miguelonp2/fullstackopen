@@ -4,11 +4,19 @@ import { nanoid } from 'nanoid'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',
-      number: '123451234' }
+    { name: 'Arto Hellas', number: '123451234', id:nanoid() },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: nanoid() },
+    { name: 'Dan Abramov', number: '12-43-234345', id: nanoid() },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: nanoid() }
   ]) 
+  const [filteredPersons, setFilteredPersons] = useState([...persons]);
   const [newName, setNewName] = useState('')
   
+  const filteringContacts = ( e ) => {
+    let filteredPersons = persons.filter( person => person.name.toUpperCase().indexOf( e.target.value.toUpperCase() ) !== -1);
+    setFilteredPersons ( filteredPersons );
+  }
+
   const controlNewContact = ( e ) => {
     let name =  e.target.form.querySelector('#inputName').value;
     let number =  e.target.form.querySelector('#inputNumber').value;
@@ -17,7 +25,6 @@ const App = () => {
   
   const setNewContact = ( e ) => {
     e.preventDefault();
-    console.log( persons, newName.name );
     if( persons.filter( person => person.name.indexOf( newName.name ) !== -1).length > 0 ) {
       window.alert( `${newName.name} is already in the phonebook` );
     } else {
@@ -31,6 +38,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <input onChange={ filteringContacts }/>
       <form>
         <div>
           name: <input id = 'inputName' onChange={ controlNewContact } />
@@ -43,7 +51,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      { persons.map ( p => <p key = { nanoid() }>{ p.name }: {p.number}</p> ) }
+      { filteredPersons.map ( p => <p key = { nanoid() }>{ p.name }: {p.number}</p> ) }
     </div>
   )
 }
