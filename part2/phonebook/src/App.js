@@ -15,7 +15,14 @@ const App = () => {
   
   const setNewContact = ( e ) => {
     e.preventDefault();
-    setPersons( persons.concat( newName ) );
+    console.log( e );
+    if( persons.filter( person => person.name.indexOf( newName.name ) !== -1).length > 0 ) {
+      window.alert( `${newName.name} is already in the phonebook` );
+    } else {
+      setPersons( persons.concat( newName ) );
+      setNewName('');
+      e.target.form.querySelector('#inputName').value = '';
+    }
   } 
 
   return (
