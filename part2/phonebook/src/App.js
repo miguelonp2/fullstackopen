@@ -1,7 +1,24 @@
 import { useState } from 'react'
 import { nanoid } from 'nanoid'
 
+const Filter = ({ onChange }) => (
+  <>
+    Filter: <input onChange={ onChange }/>
+  </>
+);
 
+const Input = ( {id, onChange, text } ) => (
+  <div>
+    <span>{ text }</span>
+    <input id = {id} onChange={ onChange } /> 
+  </div> 
+)
+
+const Button = ( {type, onClick, text} ) => (
+  <div>
+    <button type={type} onClick={ onClick }>{text}</button>
+  </div>
+)
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '123451234', id:nanoid() },
@@ -38,16 +55,13 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <input onChange={ filteringContacts }/>
+      <Filter onChange = { filteringContacts } />
       <form>
+        <Input id='inputName' onChange={controlNewContact} text='Name: ' />
+        <Input id='inputNumber' onChange={controlNewContact} text='Number: ' />
+
         <div>
-          name: <input id = 'inputName' onChange={ controlNewContact } />
-        </div>
-        <div>
-          number: <input id = 'inputNumber' onChange={ controlNewContact } />
-        </div>
-        <div>
-          <button type="submit" onClick={ setNewContact }>add</button>
+          <Button type="submit" onClick={ setNewContact } text = 'add'/>
         </div>
       </form>
       <h2>Numbers</h2>
